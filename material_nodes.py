@@ -30,7 +30,8 @@ pbrt_v4_shader_categories = [
         NodeItem("Pbrt_V4_Conductor"),
         NodeItem("Pbrt_V4_Thin_Dielectric"),
         NodeItem("Pbrt_V4_Coated_Conductor"),
-        NodeItem("Pbrt_V4_Measured")
+        NodeItem("Pbrt_V4_Measured"),
+        NodeItem("Pbrt_V4_BlackBody")
         ]),
     ]
 
@@ -449,6 +450,41 @@ class Pbrt_V4_Measured(Node, MyCustomTreeNode):
     def draw_label(self):
         return "Pbrt V4 Measured"
 
+class Pbrt_V4_BlackBody(Node, MyCustomTreeNode):
+    bl_idname = "Pbrt_V4_BlackBody"
+    bl_label = "Pbrt V4 BlackBody"
+    bl_icon = "INFO"
+
+    def update_value(self, context):
+        self.update()
+    
+    Temperature : bpy.props.IntProperty(default=5500, min=0, max=99999)
+    Lambda : bpy.props.IntProperty(default=10, min=1, max=99999)
+
+    def init(self, context):
+        self.outputs.new('NodeSocketFloat', self.bl_label )
+        
+    def update(self):
+        print('Updating BlackBody props..')
+        try:
+            can_continue = True
+        except:
+            can_continue = False
+        if can_continue:
+            print("continues in update rutine.")
+           
+    def draw_buttons(self, context, layout):
+        layout.prop(self, "Temperature",text = 'Temperature')
+        layout.prop(self, "Lambda",text = 'Lambda')
+
+    def draw_buttons_ext(self, context, layout):
+        layout.prop(self, "Temperature",text = 'Temperature')
+        layout.prop(self, "Lambda",text = 'Lambda')
+        
+    def draw_label(self):
+        return self.bl_label
+
+    
 def register():
     nodeitems_utils.register_node_categories("CUSTOM_NODES", pbrt_v4_shader_categories)
 

@@ -809,7 +809,7 @@ def export_pbrt_blackbody_material (pbrt_file, mat):
     print (mat.name)
 
     pbrt_file.write(r'AreaLightSource "diffuse" "blackbody L" [%s]' %(mat.Temperature))
-    #pbrt_file.write(r'%s]' %(mat.Lambda))
+    pbrt_file.write(r'%s]' %(mat.Lambda))
     pbrt_file.write("\n")
     return ''
 
@@ -1023,6 +1023,8 @@ def export_material(pbrt_file, object, slotIndex):
                             export_Pbrt_V4_Coated_Conductor(pbrt_file, currentMaterial)
                         if currentMaterial.bl_idname == 'Pbrt_V4_Subsurface' :
                             export_Pbrt_V4_Subsurface(pbrt_file, currentMaterial)
+                        if currentMaterial.bl_idname == "Pbrt_V4_BlackBody":
+                            export_pbrt_blackbody_material(pbrt_file, currentMaterial)
 
     return''
 
